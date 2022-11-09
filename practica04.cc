@@ -15,6 +15,7 @@
 #include "ns3/point-to-point-net-device.h"
 #include "ns3/nstime.h"
 #include "ns3/point-to-point-channel.h"
+#include "ns3/mac48-address.h"
 
 
 
@@ -31,6 +32,8 @@ int main(int argc,char *argv[]){
   UintegerValue max_pkts_c;
   TimeValue intervalo_pkts;
   UintegerValue tamano_pkt;
+  Mac48AddressValue mac_server;
+  Mac48AddressValue mac_client;
 
   //Creamos el contenedor de nodos y le añadimos dos nodos
   NodeContainer c_nodos;
@@ -47,10 +50,14 @@ int main(int argc,char *argv[]){
   PointToPointHelper h_ptp;
   NetDeviceContainer c_dispositivos = h_ptp.Install (c_nodos);
   
-  NS_LOG_INFO("Dirección MAC del servidor: " << c_nodos.Get(0)->GetDevice(0)->GetAddress());
-  NS_LOG_INFO("Dirección MAC del cliente: " << c_nodos.Get(1)->GetDevice(1)->GetAddress());
-  
   Ptr<PointToPointNetDevice> d_server = c_dispositivos.Get(0)->GetObject<PointToPointNetDevice> ();
+  d_server->GetAttribute("Address",mac_server);
+  NS_LOG_INFO("Dirección MAC del servidor: " << mac_server.Get());
+  
+  Ptr<PointToPointNetDevice> d_client = c_dispositivos.Get(1)->GetObject<PointToPointNetDevice> ();
+  d_client->GetAttribute("Address",mac_client);
+  NS_LOG_INFO("Direccioń MAC del cliente: " << mac_client.Get());
+  
   d_server->GetAttribute("DataRate",reg_bin);
   
   NS_LOG_INFO("Velocidad de transmisión del enlace: " << reg_bin.Get());
@@ -92,7 +99,6 @@ int main(int argc,char *argv[]){
   Simulator::Run();
   NS_LOG_INFO("Termina la simulación");
   Simulator::Destroy();
-
 
 }
 
