@@ -1,4 +1,5 @@
 #include <iostream>
+#include "observador.h"
 #include "ns3/command-line.h"
 #include "ns3/data-rate.h"
 #include "ns3/internet-stack-helper.h"
@@ -160,10 +161,16 @@ int main(int argc,char *argv[]){
   NS_LOG_INFO("Tamaño de los paquetes que envía el cliente: " << tamano_pkt.Get());
 
 
+  Observador obs(server_udp);
+
   Simulator::Stop(Time("60s"));
   NS_LOG_INFO ("Arranca la simulación");
   Simulator::Run();
   NS_LOG_INFO("Termina la simulación");
   Simulator::Destroy();
+
+  NS_LOG_INFO("Observador: Num. paquetes recibidos: " << obs.TotalPaquetes());
+  NS_LOG_INFO("UdpServer:  Num. paquetes recibidos: " << server_udp->GetReceived());
+
 
 }
