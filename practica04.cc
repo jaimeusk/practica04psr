@@ -40,17 +40,13 @@ int main(int argc,char *argv[]){
   // Se dan valores por defecto por si no se concretan en la linea de comandos.
   // Cliente UDP
   uint conf_max_pkts_c_cmmdline = 1000; // Aux para cmmdline
-  //UintegerValue conf_max_pkts_c(conf_max_pkts_c_cmmdline);
   uint conf_tamano_pkt_cmmdline = 13; // Aux para cmmdline
-  //UintegerValue conf_tamano_pkt(conf_tamano_pkt_cmmdline);
   Time  conf_intervalo_pkts_cmmdline("3s"); // Auxiliar para poder usar cmmdline
-  //TimeValue conf_intervalo_pkts (conf_intervalo_pkts_cmmdline);
   
   // Escenario
   Time conf_retardo_canal_cmmdline("10ns"); // Auxiliar para cmmdline
-  //TimeValue conf_retardo_canal(conf_retardo_canal_cmmdline);
   DataRate conf_reg_bin_cmmdline("10000kbps"); // Auxiliar para cmmdline
-  //DataRateValue conf_reg_bin(conf_reg_bin_cmmdline);
+
 
 
   /***********************************************************/
@@ -122,12 +118,6 @@ int main(int argc,char *argv[]){
   cmd.AddValue("regBinCanal","Regimen binario del canal",conf_reg_bin_cmmdline);
   cmd.AddValue("delayCanal","Retardo de propagación del canal",conf_retardo_canal_cmmdline);
   cmd.Parse(argc,argv);
-
-  //conf_intervalo_pkts.Set(conf_intervalo_pkts_cmmdline);
-  //conf_tamano_pkt.Set(conf_tamano_pkt_cmmdline);
-  //conf_max_pkts_c.Set(conf_max_pkts_c_cmmdline);
-  //conf_reg_bin.Set(conf_reg_bin_cmmdline);
-  //conf_retardo_canal.Set(conf_retardo_canal_cmmdline);
 
   // Cambiamos los atributos del cliente.
   client_udp->SetAttribute("MaxPackets",UintegerValue(conf_max_pkts_c_cmmdline));
