@@ -19,8 +19,6 @@
 #include "ns3/uinteger.h"
 
 
-
-
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("Practica04");
@@ -42,17 +40,17 @@ int main(int argc,char *argv[]){
   // Se dan valores por defecto por si no se concretan en la linea de comandos.
   // Cliente UDP
   uint conf_max_pkts_c_cmmdline = 1000; // Aux para cmmdline
-  UintegerValue conf_max_pkts_c(conf_max_pkts_c_cmmdline);
+  //UintegerValue conf_max_pkts_c(conf_max_pkts_c_cmmdline);
   uint conf_tamano_pkt_cmmdline = 13; // Aux para cmmdline
-  UintegerValue conf_tamano_pkt(conf_tamano_pkt_cmmdline);
+  //UintegerValue conf_tamano_pkt(conf_tamano_pkt_cmmdline);
   Time  conf_intervalo_pkts_cmmdline("3s"); // Auxiliar para poder usar cmmdline
-  TimeValue conf_intervalo_pkts (conf_intervalo_pkts_cmmdline);
+  //TimeValue conf_intervalo_pkts (conf_intervalo_pkts_cmmdline);
   
   // Escenario
   Time conf_retardo_canal_cmmdline("10ns"); // Auxiliar para cmmdline
-  TimeValue conf_retardo_canal(conf_retardo_canal_cmmdline);
+  //TimeValue conf_retardo_canal(conf_retardo_canal_cmmdline);
   DataRate conf_reg_bin_cmmdline("10000kbps"); // Auxiliar para cmmdline
-  DataRateValue conf_reg_bin(conf_reg_bin_cmmdline);
+  //DataRateValue conf_reg_bin(conf_reg_bin_cmmdline);
 
 
   /***********************************************************/
@@ -125,22 +123,23 @@ int main(int argc,char *argv[]){
   cmd.AddValue("delayCanal","Retardo de propagación del canal",conf_retardo_canal_cmmdline);
   cmd.Parse(argc,argv);
 
-  conf_intervalo_pkts.Set(conf_intervalo_pkts_cmmdline);
-  conf_tamano_pkt.Set(conf_tamano_pkt_cmmdline);
-  conf_max_pkts_c.Set(conf_max_pkts_c_cmmdline);
-  conf_reg_bin.Set(conf_reg_bin_cmmdline);
-  conf_retardo_canal.Set(conf_retardo_canal_cmmdline);
+  //conf_intervalo_pkts.Set(conf_intervalo_pkts_cmmdline);
+  //conf_tamano_pkt.Set(conf_tamano_pkt_cmmdline);
+  //conf_max_pkts_c.Set(conf_max_pkts_c_cmmdline);
+  //conf_reg_bin.Set(conf_reg_bin_cmmdline);
+  //conf_retardo_canal.Set(conf_retardo_canal_cmmdline);
 
   // Cambiamos los atributos del cliente.
-  client_udp->SetAttribute("MaxPackets",conf_max_pkts_c);
-  client_udp->SetAttribute("PacketSize",conf_tamano_pkt);
-  client_udp->SetAttribute("Interval",conf_intervalo_pkts);
+  client_udp->SetAttribute("MaxPackets",UintegerValue(conf_max_pkts_c_cmmdline));
+  client_udp->SetAttribute("PacketSize",UintegerValue(conf_tamano_pkt_cmmdline));
+  client_udp->SetAttribute("Interval",TimeValue(conf_intervalo_pkts_cmmdline));
 
   // Cambiamos los atributos del canal y de los dispositivos.
-  canal_ptp->SetAttribute("Delay",conf_retardo_canal);
-  d_client->SetAttribute("DataRate",conf_reg_bin);  // ¿Debe ajustarse en ambos para que sea igual? Si sólo
-  d_server->SetAttribute("DataRate",conf_reg_bin);  // se ajusta en cliente, servidor tiene otra y viceversa
+  canal_ptp->SetAttribute("Delay",TimeValue(conf_retardo_canal_cmmdline));
+  d_client->SetAttribute("DataRate",DataRateValue(conf_reg_bin_cmmdline));  // ¿Debe ajustarse en ambos para que sea igual? Si sólo
+  d_server->SetAttribute("DataRate",DataRateValue(conf_reg_bin_cmmdline));  // se ajusta en cliente, servidor tiene otra y viceversa
   
+
   /***********************************************************/
   /*******    Obtencion de valores de los atributos   ********/
   /*******  Y uso de trazas NS_LOG asociadas a ellos  ********/
@@ -178,4 +177,3 @@ int main(int argc,char *argv[]){
   Simulator::Destroy();
 
 }
-
