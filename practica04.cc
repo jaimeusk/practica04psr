@@ -18,6 +18,7 @@
 #include "ns3/udp-client.h"
 #include "ns3/udp-server.h"
 #include "ns3/uinteger.h"
+#include "retardo.h"
 
 
 using namespace ns3;
@@ -40,13 +41,13 @@ int main(int argc,char *argv[]){
   // Parametros para configuracion del escenario
   // Se dan valores por defecto por si no se concretan en la linea de comandos.
   // Cliente UDP
-  uint conf_max_pkts_c_cmmdline = 1000; // Aux para cmmdline
-  uint conf_tamano_pkt_cmmdline = 13; // Aux para cmmdline
-  Time  conf_intervalo_pkts_cmmdline("3s"); // Auxiliar para poder usar cmmdline
+  uint conf_max_pkts_c_cmmdline = 100; // Aux para cmmdline
+  uint conf_tamano_pkt_cmmdline = 1024; // Aux para cmmdline
+  Time  conf_intervalo_pkts_cmmdline("1s"); // Auxiliar para poder usar cmmdline
   
   // Escenario
-  Time conf_retardo_canal_cmmdline("10ns"); // Auxiliar para cmmdline
-  DataRate conf_reg_bin_cmmdline("10000kbps"); // Auxiliar para cmmdline
+  Time conf_retardo_canal_cmmdline("0s"); // Auxiliar para cmmdline
+  DataRate conf_reg_bin_cmmdline("32768bps"); // Auxiliar para cmmdline
 
 
 
@@ -162,8 +163,9 @@ int main(int argc,char *argv[]){
 
 
   Observador obs(server_udp);
+  Retardo retardo(d_server,d_client);
 
-  Simulator::Stop(Time("60s"));
+  Simulator::Stop();  //Podría ponerse un tiempo de fin de simulación pero el enunciado no dice nada
   NS_LOG_INFO ("Arranca la simulación");
   Simulator::Run();
   NS_LOG_INFO("Termina la simulación");
@@ -171,6 +173,7 @@ int main(int argc,char *argv[]){
 
   NS_LOG_INFO("Observador: Num. paquetes recibidos: " << obs.TotalPaquetes());
   NS_LOG_INFO("UdpServer:  Num. paquetes recibidos: " << server_udp->GetReceived());
+  NS_LOG_INFO("Retardo medio del enlace punto a punto: " << retardo.Get_RetardoMedio());
 
 
 }
